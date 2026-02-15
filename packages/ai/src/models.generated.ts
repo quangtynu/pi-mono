@@ -12405,4 +12405,23 @@ export const MODELS = {
 			maxTokens: 131072,
 		} satisfies Model<"openai-completions">,
 	},
+	"nvidia-nim": {
+		"nvidia/llama-3.1-nemotron-70b-instruct": {
+			id: "nvidia/llama-3.1-nemotron-70b-instruct",
+			name: "NVIDIA Nemotron 70B Instruct",
+			api: "openai-completions",
+			provider: "nvidia-nim",
+			baseUrl: "https://integrate.api.nvidia.com/v1",
+			reasoning: false,
+			input: ["text"],
+			cost: {
+				input: 0,
+				output: 0,
+				cacheRead: 0,
+				cacheWrite: 0,
+			},
+			contextWindow: 128000,
+			maxTokens: 4096,
+		} satisfies Model<"openai-completions">,
+	},
 } as const;

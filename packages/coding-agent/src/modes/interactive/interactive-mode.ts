@@ -3713,7 +3713,7 @@ export class InteractiveMode {
 
 			// Success
 			restoreEditor();
-			this.session.modelRegistry.refresh();
+			await this.session.modelRegistry.refreshWithModelScan();
 			await this.updateAvailableProviderCount();
 			this.showStatus(`Logged in to ${providerName}. Credentials saved to ${getAuthPath()}`);
 		} catch (error: unknown) {

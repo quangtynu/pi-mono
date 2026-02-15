@@ -285,6 +285,38 @@ export class ModelRegistry {
 		this.models = combined;
 	}
 
+	/** Refresh models and scan from OAuth providers (call after login) */
+	async refreshWithModelScan(): Promise<void> {
+		this.loadModels();
+
+		const combined = [...this.models];
+
+		// Scan models from OAuth providers that support it (e.g., NVIDIA NIM)
+		for (const oauthProvider of this.authStorage.getOAuthProviders()) {
+			const cred = this.authStorage.get(oauthProvider.id);
+			if (cred?.type === "oauth" && oauthProvider.scanModels) {
+				try {
+					const scannedModels = await oauthProvider.scanModels(cred);
+					// Merge scanned models with existing ones (scanned takes precedence)
+					for (const scannedModel of scannedModels) {
+						const existingIndex = combined.findIndex(
+							(m) => m.provider === scannedModel.provider && m.id === scannedModel.id,
+						);
+						if (existingIndex >= 0) {
+							combined[existingIndex] = scannedModel;
+						} else {
+							combined.push(scannedModel);
+						}
+					}
+				} catch (err) {
+					console.warn(`Failed to scan models from ${oauthProvider.name}:`, err);
+				}
+			}
+		}
+
+		this.models = combined;
+	}
+
 	/** Load built-in models and apply provider/model overrides */
 	private loadBuiltInModels(
 		overrides: Map<string, ProviderOverride>,

@@ -7,6 +7,8 @@
  * - GitHub Copilot
  * - Google Cloud Code Assist (Gemini CLI)
  * - Antigravity (Gemini 3, Claude, GPT-OSS via Google Cloud)
+ * - OpenAI Codex (ChatGPT)
+ * - NVIDIA NIM (manual API key entry)
  */
 
 // Set up HTTP proxy for fetch() calls (respects HTTP_PROXY, HTTPS_PROXY env vars)
@@ -26,6 +28,8 @@ export {
 export { antigravityOAuthProvider, loginAntigravity, refreshAntigravityToken } from "./google-antigravity.js";
 // Google Gemini CLI
 export { geminiCliOAuthProvider, loginGeminiCli, refreshGoogleCloudToken } from "./google-gemini-cli.js";
+// NVIDIA NIM (manual API key entry)
+export { loginNvidiaNim, nvidiaNimOAuthProvider, refreshNvidiaNimToken, scanNvidiaNimModels } from "./nvidia-nim.js";
 // OpenAI Codex (ChatGPT OAuth)
 export { loginOpenAICodex, openaiCodexOAuthProvider, refreshOpenAICodexToken } from "./openai-codex.js";
 
@@ -39,6 +43,7 @@ import { anthropicOAuthProvider } from "./anthropic.js";
 import { githubCopilotOAuthProvider } from "./github-copilot.js";
 import { antigravityOAuthProvider } from "./google-antigravity.js";
 import { geminiCliOAuthProvider } from "./google-gemini-cli.js";
+import { nvidiaNimOAuthProvider } from "./nvidia-nim.js";
 import { openaiCodexOAuthProvider } from "./openai-codex.js";
 import type { OAuthCredentials, OAuthProviderId, OAuthProviderInfo, OAuthProviderInterface } from "./types.js";
 
@@ -48,6 +53,7 @@ const oauthProviderRegistry = new Map<string, OAuthProviderInterface>([
 	[geminiCliOAuthProvider.id, geminiCliOAuthProvider],
 	[antigravityOAuthProvider.id, antigravityOAuthProvider],
 	[openaiCodexOAuthProvider.id, openaiCodexOAuthProvider],
+	[nvidiaNimOAuthProvider.id, nvidiaNimOAuthProvider],
 ]);
 
 /**

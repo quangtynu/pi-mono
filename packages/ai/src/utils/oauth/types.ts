@@ -49,6 +49,9 @@ export interface OAuthProviderInterface {
 
 	/** Optional: modify models for this provider (e.g., update baseUrl) */
 	modifyModels?(models: Model<Api>[], credentials: OAuthCredentials): Model<Api>[];
+
+	/** Optional: scan models from the provider's API after login */
+	scanModels?(credentials: OAuthCredentials): Promise<Model<Api>[]>;
 }
 
 /** @deprecated Use OAuthProviderInterface instead */
